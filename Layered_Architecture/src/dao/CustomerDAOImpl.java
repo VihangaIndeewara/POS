@@ -34,12 +34,12 @@ public class CustomerDAOImpl {
         return pstm.executeUpdate()>0;
     }
 
-    public  void updateCustomer(String name,String address,String id) throws SQLException, ClassNotFoundException {
+    public  void updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
-        pstm.setString(1, name);
-        pstm.setString(2, address);
-        pstm.setString(3, id);
+        pstm.setString(1, dto.getName());
+        pstm.setString(2, dto.getAddress());
+        pstm.setString(3, dto.getId());
         pstm.executeUpdate();
     }
 
