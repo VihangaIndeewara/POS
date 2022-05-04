@@ -25,7 +25,7 @@ public class CustomerDAOImpl {
         return allCustomers;
     }
 
-    public Boolean saveCustomer(CustomerDTO customer) throws SQLException, ClassNotFoundException {
+    public boolean saveCustomer(CustomerDTO customer) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer (id,name, address) VALUES (?,?,?)");
         pstm.setString(1, customer.getId());
@@ -34,15 +34,20 @@ public class CustomerDAOImpl {
         return pstm.executeUpdate()>0;
     }
 
-    public  void updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
         pstm.setString(1, dto.getName());
         pstm.setString(2, dto.getAddress());
         pstm.setString(3, dto.getId());
-        pstm.executeUpdate();
+       return pstm.executeUpdate()>0;
     }
 
-
+    public boolean existCustomer(String  id) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
+        pstm.setString(1, id);
+        return pstm.executeQuery().next();
+    }
 
 }
