@@ -165,7 +165,7 @@ public class ManageCustomersFormController {
                 if (!existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
                 }
-                
+
                 CustomerDAOImpl customerDAO = new CustomerDAOImpl();
                 customerDAO.updateCustomer(name,address,id);
 
