@@ -32,7 +32,7 @@ import java.util.List;
  * @since : 0.1.0
  **/
 
-public class ManageCustomersFormController {
+public class ManageCustomersFormController   {
     public AnchorPane root;
     public JFXTextField txtCustomerName;
     public JFXTextField txtCustomerId;
