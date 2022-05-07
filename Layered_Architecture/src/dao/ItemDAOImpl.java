@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ItemDAOImpl implements  ItemDAO{
-    public ArrayList<ItemDTO> loadAllItem() throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemDTO> loadAllItem  () throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery("SELECT * FROM Item");

@@ -25,22 +25,12 @@ public class CustomerDAOImpl implements CustomerDAO{
         return allCustomers;
     }
 
-    public boolean saveCustomer(CustomerDTO customer) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer (id,name, address) VALUES (?,?,?)");
-        pstm.setString(1, customer.getId());
-        pstm.setString(2, customer.getName());
-        pstm.setString(3, customer.getAddress());
-        return pstm.executeUpdate()>0;
+    public boolean saveCustomer(CustomerDTO c) throws SQLException, ClassNotFoundException {
+      return SQLUtil.executeUpdate("INSERT INTO Customer (id,name, address) VALUES (?,?,?)",c.getId(),c.getName(),c.getAddress());
     }
 
-    public boolean updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
-        pstm.setString(1, dto.getName());
-        pstm.setString(2, dto.getAddress());
-        pstm.setString(3, dto.getId());
-       return pstm.executeUpdate()>0;
+    public boolean updateCustomer(CustomerDTO c) throws SQLException, ClassNotFoundException {
+        return SQLUtil.executeUpdate("UPDATE Customer SET name=?, address=? WHERE id=?",c.getName(),c.getAddress(),c.getId());
     }
 
     public boolean existCustomer(String  id) throws SQLException, ClassNotFoundException {
@@ -48,13 +38,13 @@ public class CustomerDAOImpl implements CustomerDAO{
         PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
         pstm.setString(1, id);
         return pstm.executeQuery().next();
+
+      //  return SQLUtil.executeQuery("SELECT id FROM Customer WHERE id=?",id);
+
     }
 
     public boolean deleteCustomer(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
-        pstm.setString(1, id);
-        return pstm.executeUpdate()>0;
+      return SQLUtil.executeUpdate("DELETE FROM Customer WHERE id=?",id);
     }
 
     public String  generateCustomerId() throws SQLException, ClassNotFoundException {
