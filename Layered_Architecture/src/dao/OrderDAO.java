@@ -25,6 +25,11 @@ public class OrderDAO implements CrudDAO<OrderDAO,String>{
     }
 
     @Override
+    public OrderDAO search(String s) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
     public boolean delete(String s) throws SQLException, ClassNotFoundException {
         return false;
     }

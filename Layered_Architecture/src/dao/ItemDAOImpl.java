@@ -43,6 +43,15 @@ public class ItemDAOImpl implements CrudDAO<ItemDTO,String>{
     }
 
     @Override
+    public ItemDTO search(String code) throws SQLException, ClassNotFoundException {
+        ResultSet rst = SQLUtil.executeQuery("SELECT * FROM Item WHERE code=?", code);
+        if (rst.next()) {
+            return new ItemDTO(rst.getString(1),rst.getString(2),rst.getBigDecimal(3),rst.getInt(4));
+        }
+        return null;
+    }
+
+    @Override
     public boolean delete(String code) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate("DELETE FROM Item WHERE code=?",code);
     }
