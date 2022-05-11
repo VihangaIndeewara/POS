@@ -5,7 +5,7 @@ import model.OrderDetailDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class OrderDetailsDAO implements  CrudDAO<OrderDetailDTO,String>{
+public class OrderDetailsDAOImpl implements  CrudDAO<OrderDetailDTO,String>{
     @Override
     public ArrayList<OrderDetailDTO> getAll() throws SQLException, ClassNotFoundException {
         return null;
@@ -13,7 +13,7 @@ public class OrderDetailsDAO implements  CrudDAO<OrderDetailDTO,String>{
 
     @Override
     public boolean save(OrderDetailDTO dto) throws SQLException, ClassNotFoundException {
-        return false;
+        return  SQLUtil.executeUpdate("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)",dto.getoId(),dto.getItemCode(),dto.getUnitPrice(),dto.getQty());
     }
 
     @Override
