@@ -113,10 +113,10 @@ public class PlaceOrderFormController {
                             new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
                         }
 
-                        CustomerDTO customerDTO = customerDAO.search(newValue + "");
+                        PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
+                        CustomerDTO search = placeOrderFormBO.searchCustomer(newValue + "");
 
-
-                        txtCustomerName.setText(customerDTO.getName());
+                        txtCustomerName.setText(search.getName());
                     } catch (SQLException e) {
                         new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
                     }
@@ -141,14 +141,15 @@ public class PlaceOrderFormController {
                     if (!existItem(newItemCode + "")) {
 //                        throw new NotFoundException("There is no such item associated with the id " + code);
                     }
-                    ItemDTO item = itemDAO.search(newItemCode + "");
+                    PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
+                    ItemDTO search = placeOrderFormBO.searchItem(newItemCode + "");
 
-                    txtDescription.setText(item.getDescription());
-                    txtUnitPrice.setText(item.getUnitPrice().setScale(2).toString());
+                    txtDescription.setText(search.getDescription());
+                    txtUnitPrice.setText(search.getUnitPrice().setScale(2).toString());
 
 //                    txtQtyOnHand.setText(tblOrderDetails.getItems().stream().filter(detail-> detail.getCode().equals(item.getCode())).<Integer>map(detail-> item.getQtyOnHand() - detail.getQty()).findFirst().orElse(item.getQtyOnHand()) + "");
                     Optional<OrderDetailTM> optOrderDetail = tblOrderDetails.getItems().stream().filter(detail -> detail.getCode().equals(newItemCode)).findFirst();
-                    txtQtyOnHand.setText((optOrderDetail.isPresent() ? item.getQtyOnHand() - optOrderDetail.get().getQty() : item.getQtyOnHand()) + "");
+                    txtQtyOnHand.setText((optOrderDetail.isPresent() ? search.getQtyOnHand() - optOrderDetail.get().getQty() : search.getQtyOnHand()) + "");
 
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();

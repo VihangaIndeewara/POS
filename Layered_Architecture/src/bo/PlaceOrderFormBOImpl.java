@@ -8,6 +8,7 @@ import dao.custom.impl.CustomerDAOImpl;
 import dao.custom.impl.ItemDAOImpl;
 import dao.custom.impl.OrderDAOImpl;
 import dao.custom.impl.OrderDetailsDAOImpl;
+import model.CustomerDTO;
 import model.ItemDTO;
 import model.OrderDTO;
 import model.OrderDetailDTO;
@@ -74,5 +75,13 @@ public class PlaceOrderFormBOImpl {
             return true;
 
 //        return false;
+    }
+
+    public CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException {
+        return customerDAO.search(id);
+    }
+
+    public ItemDTO searchItem (String code) throws SQLException, ClassNotFoundException {
+        return itemDAO.search(code);
     }
 }
