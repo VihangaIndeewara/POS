@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaceOrderFormBOImpl {
+public class PlaceOrderFormBOImpl implements PlaceOrderFormBO{
     CustomerDAO customerDAO=new CustomerDAOImpl();
     ItemDAO itemDAO = new ItemDAOImpl();
     OrderDAO orderDAO = new OrderDAOImpl();

@@ -1,5 +1,6 @@
 package controller;
 
+import bo.PlaceOrderFormBO;
 import bo.PlaceOrderFormBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -54,10 +55,7 @@ public class PlaceOrderFormController {
     public Label lblTotal;
     private String orderId;
 
-//    CustomerDAO customerDAO=new CustomerDAOImpl();
-//    ItemDAO itemDAO = new ItemDAOImpl();
-//    OrderDAO orderDAO = new OrderDAOImpl();
-//    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+    PlaceOrderFormBO placeOrderFormBO = new PlaceOrderFormBOImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
         tblOrderDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -108,8 +106,6 @@ public class PlaceOrderFormController {
 //                            "There is no such customer associated with the id " + id
                             new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
                         }
-
-                        PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
                         CustomerDTO search = placeOrderFormBO.searchCustomer(newValue + "");
 
                         txtCustomerName.setText(search.getName());
@@ -137,7 +133,7 @@ public class PlaceOrderFormController {
                     if (!existItem(newItemCode + "")) {
 //                        throw new NotFoundException("There is no such item associated with the id " + code);
                     }
-                    PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
+
                     ItemDTO search = placeOrderFormBO.searchItem(newItemCode + "");
 
                     txtDescription.setText(search.getDescription());
@@ -183,18 +179,15 @@ public class PlaceOrderFormController {
     }
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
         return placeOrderFormBO.checkItemIsAvailable(code);
     }
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
         return placeOrderFormBO.checkCustomerIsAvailable(id);
     }
 
     public String generateNewOrderId() {
         try {
-            PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
             return placeOrderFormBO.generateNewOrderId();
 
         } catch (SQLException e) {
@@ -208,7 +201,6 @@ public class PlaceOrderFormController {
 
     private void loadAllCustomerIds() {
         try {
-            PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
             ArrayList<CustomerDTO> rst = placeOrderFormBO.getAllCustomers();
 
             for (CustomerDTO c:rst) {
@@ -225,7 +217,6 @@ public class PlaceOrderFormController {
     private void loadAllItemCodes() {
         try {
             /*Get all items*/
-            PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
             ArrayList<ItemDTO> all = placeOrderFormBO.getAllItems();
 
             for (ItemDTO itemDTO : all) {
@@ -326,8 +317,6 @@ public class PlaceOrderFormController {
     }
 
     public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
-
-        PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
         try {
             placeOrderFormBO.purchaseOrder(orderId,orderDate,customerId,orderDetails);
         } catch (SQLException | ClassNotFoundException e) {
@@ -340,7 +329,6 @@ public class PlaceOrderFormController {
 
     public ItemDTO findItem(String code) {
         try {
-            PlaceOrderFormBOImpl placeOrderFormBO = new PlaceOrderFormBOImpl();
             return placeOrderFormBO.searchItem(code);
 
         } catch (SQLException e) {
