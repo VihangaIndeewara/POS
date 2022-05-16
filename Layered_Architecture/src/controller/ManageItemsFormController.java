@@ -1,5 +1,6 @@
 package controller;
 
+import bo.ItemBO;
 import bo.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -42,7 +43,7 @@ public class ManageItemsFormController {
     public JFXTextField txtUnitPrice;
     public JFXButton btnAddNewItem;
 
-
+    ItemBO itemBO = new ItemBOImpl();
 
     public void initialize() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -78,7 +79,6 @@ public class ManageItemsFormController {
         tblItems.getItems().clear();
         try {
             /*Get all items*/
-            ItemBOImpl itemBO = new ItemBOImpl();
             ArrayList<ItemDTO> allItems = itemBO.getAllItems();
 
             for (ItemDTO item:allItems) {
@@ -139,10 +139,7 @@ public class ManageItemsFormController {
             if (!existItem(code)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
             }
-
-            ItemBOImpl itemBO = new ItemBOImpl();
             itemBO.deleteItem(code);
-
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
             tblItems.getSelectionModel().clearSelection();
@@ -182,8 +179,6 @@ public class ManageItemsFormController {
                     new Alert(Alert.AlertType.ERROR, code + " already exists").show();
                 }
                 //Save Item
-
-                ItemBOImpl itemBO = new ItemBOImpl();
                 itemBO.saveItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
 
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
@@ -200,11 +195,7 @@ public class ManageItemsFormController {
                     new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
                 }
                 /*Update Item*/
-
-
-                ItemBOImpl itemBO = new ItemBOImpl();
                 itemBO.updateItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
-
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -223,14 +214,12 @@ public class ManageItemsFormController {
 
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        ItemBOImpl itemBO = new ItemBOImpl();
         return itemBO.checkItemIsAvailable(code);
     }
 
 
     private String generateNewId() {
         try {
-            ItemBOImpl itemBO = new ItemBOImpl();
             itemBO.generateNewItemCode();
 
         } catch (SQLException e) {
