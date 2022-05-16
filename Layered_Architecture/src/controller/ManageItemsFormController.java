@@ -1,5 +1,6 @@
 package controller;
 
+import bo.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import dao.custom.ItemDAO;
@@ -41,8 +42,7 @@ public class ManageItemsFormController {
     public JFXTextField txtUnitPrice;
     public JFXButton btnAddNewItem;
 
-    //Property Injection(DI)
-    private final ItemDAO itemDAO = new ItemDAOImpl();
+
 
     public void initialize() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -78,7 +78,8 @@ public class ManageItemsFormController {
         tblItems.getItems().clear();
         try {
             /*Get all items*/
-            ArrayList<ItemDTO> allItems = itemDAO.getAll();
+            ItemBOImpl itemBO = new ItemBOImpl();
+            ArrayList<ItemDTO> allItems = itemBO.getAllItems();
 
             for (ItemDTO item:allItems) {
                 tblItems.getItems().add(new ItemTM(item.getCode(), item.getDescription(), item.getUnitPrice(),item.getQtyOnHand()));
@@ -139,7 +140,8 @@ public class ManageItemsFormController {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
             }
 
-            itemDAO.delete(code);
+            ItemBOImpl itemBO = new ItemBOImpl();
+            itemBO.deleteItem(code);
 
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
@@ -181,7 +183,8 @@ public class ManageItemsFormController {
                 }
                 //Save Item
 
-                itemDAO.save(new ItemDTO(code,description,unitPrice,qtyOnHand));
+                ItemBOImpl itemBO = new ItemBOImpl();
+                itemBO.saveItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
 
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
 
@@ -199,7 +202,8 @@ public class ManageItemsFormController {
                 /*Update Item*/
 
 
-                itemDAO.update(new ItemDTO(code,description,unitPrice,qtyOnHand));
+                ItemBOImpl itemBO = new ItemBOImpl();
+                itemBO.updateItem(new ItemDTO(code,description,unitPrice,qtyOnHand));
 
 
             } catch (SQLException e) {
@@ -219,16 +223,15 @@ public class ManageItemsFormController {
 
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        return itemDAO.exist(code);
-
-
+        ItemBOImpl itemBO = new ItemBOImpl();
+        return itemBO.checkItemIsAvailable(code);
     }
 
 
     private String generateNewId() {
         try {
-            return itemDAO.generateNewId();
-
+            ItemBOImpl itemBO = new ItemBOImpl();
+            itemBO.generateNewItemCode();
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
