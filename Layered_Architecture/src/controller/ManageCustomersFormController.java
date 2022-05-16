@@ -1,5 +1,6 @@
 package controller;
 
+import bo.CustomerBO;
 import bo.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -40,6 +41,7 @@ public class ManageCustomersFormController   {
     public TableView<CustomerTM> tblCustomers;
     public JFXButton btnAddNewCustomer;
 
+    CustomerBO customerBO = new CustomerBOImpl();
 
     public void initialize() {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -72,8 +74,6 @@ public class ManageCustomersFormController   {
         tblCustomers.getItems().clear();
         /*Get all customers*/
         try {
-
-            CustomerBOImpl customerBO = new CustomerBOImpl();
             ArrayList<CustomerDTO> allCustomers = customerBO.getAllCustomers();
 
             for (CustomerDTO customer:allCustomers) {
@@ -149,8 +149,6 @@ public class ManageCustomersFormController   {
                 if (existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, id + " already exists").show();
                 }
-
-                CustomerBOImpl customerBO = new CustomerBOImpl();
                 customerBO.saveCustomer(new CustomerDTO(id,name,address));
 
                 tblCustomers.getItems().add(new CustomerTM(id, name, address));
@@ -167,8 +165,6 @@ public class ManageCustomersFormController   {
                 if (!existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
                 }
-
-                CustomerBOImpl customerBO = new CustomerBOImpl();
                 customerBO.updateCustomer(new CustomerDTO(name,address,id));
 
             } catch (SQLException e) {
@@ -188,7 +184,6 @@ public class ManageCustomersFormController   {
 
 
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerBOImpl customerBO = new CustomerBOImpl();
         return customerBO.checkCustomerIsAvailable(id);
     }
 
@@ -199,7 +194,6 @@ public class ManageCustomersFormController   {
             if (!existCustomer(id)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
-            CustomerBOImpl customerBO = new CustomerBOImpl();
             customerBO.deleteCustomer(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
@@ -215,7 +209,6 @@ public class ManageCustomersFormController   {
 
     private String generateNewId() {
         try {
-            CustomerBOImpl customerBO = new CustomerBOImpl();
             return customerBO.generateNewCustomerId();
 
         } catch (SQLException e) {
