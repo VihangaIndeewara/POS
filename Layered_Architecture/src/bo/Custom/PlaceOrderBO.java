@@ -1,4 +1,4 @@
-package bo;
+package bo.Custom;
 
 import model.CustomerDTO;
 import model.ItemDTO;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface PlaceOrderFormBO {
+public interface PlaceOrderBO {
 
     public boolean purchaseOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException ;
 

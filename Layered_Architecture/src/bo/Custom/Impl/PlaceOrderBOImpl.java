@@ -1,13 +1,10 @@
-package bo;
+package bo.Custom.Impl;
 
-import dao.custom.CustomerDAO;
-import dao.custom.ItemDAO;
-import dao.custom.OrderDAO;
-import dao.custom.OrderDetailsDAO;
-import dao.custom.impl.CustomerDAOImpl;
-import dao.custom.impl.ItemDAOImpl;
-import dao.custom.impl.OrderDAOImpl;
-import dao.custom.impl.OrderDetailsDAOImpl;
+import bo.Custom.PlaceOrderBO;
+import dao.DAOFactory;
+import dao.SuperDAO;
+import dao.custom.*;
+import dao.custom.impl.*;
 import model.CustomerDTO;
 import model.ItemDTO;
 import model.OrderDTO;
@@ -19,12 +16,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaceOrderFormBOImpl implements PlaceOrderFormBO{
-    CustomerDAO customerDAO=new CustomerDAOImpl();
-    ItemDAO itemDAO = new ItemDAOImpl();
-    OrderDAO orderDAO = new OrderDAOImpl();
-    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+public class PlaceOrderBOImpl implements PlaceOrderBO {
 
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    ItemDAO itemDAO =(ItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
+    OrderDAO orderDAO= (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
+    OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDERDETAILS);
+    QuaryDAO quaryDAO = (QuaryDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.QUARY);
+
+    //    CustomerDAO customerDAO=new CustomerDAOImpl();
+    //    ItemDAO itemDAO = new ItemDAOImpl();
+    //    OrderDAO orderDAO = new OrderDAOImpl();
+    //    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+    //    QuaryDAO quaryDAO = new QuaryDAOImpl();
 
     public boolean purchaseOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException {
         /*Transaction*/
@@ -58,8 +62,7 @@ public class PlaceOrderFormBOImpl implements PlaceOrderFormBO{
                 }
 
 //                //Search & Update Item
-                //               ItemDTO item = findItem(detail.getItemCode());
-                ItemDTO item = null;
+                ItemDTO item = searchItem(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
                 boolean update = itemDAO.update(new ItemDTO(item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
