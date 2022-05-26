@@ -2,13 +2,11 @@ package bo.Custom.Impl;
 
 import bo.Custom.PlaceOrderBO;
 import dao.DAOFactory;
-import dao.SuperDAO;
 import dao.custom.*;
-import dao.custom.impl.*;
-import model.CustomerDTO;
-import model.ItemDTO;
-import model.OrderDTO;
-import model.OrderDetailDTO;
+import dto.CustomerDTO;
+import dto.ItemDTO;
+import dto.OrderDTO;
+import dto.OrderDetailDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
