@@ -5,6 +5,7 @@ import bo.Custom.Impl.PlaceOrderBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import dto.OrderDTO;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
@@ -321,7 +322,8 @@ public class PlaceOrderFormController {
 
     public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
         try {
-            placeOrderFormBO.purchaseOrder(orderId,orderDate,customerId,orderDetails);
+            OrderDTO orderDTO = new OrderDTO(orderId, orderDate, customerId, orderDetails);
+            placeOrderFormBO.purchaseOrder(orderDTO);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }

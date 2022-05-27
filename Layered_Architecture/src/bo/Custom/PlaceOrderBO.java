@@ -3,6 +3,7 @@ package bo.Custom;
 import bo.SuperBO;
 import dto.CustomerDTO;
 import dto.ItemDTO;
+import dto.OrderDTO;
 import dto.OrderDetailDTO;
 
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public interface PlaceOrderBO extends SuperBO {
 
-    public boolean purchaseOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException ;
+    public boolean purchaseOrder(OrderDTO dto) throws SQLException, ClassNotFoundException ;
 
     public CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException ;
 
